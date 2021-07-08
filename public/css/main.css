@@ -106,7 +106,7 @@ a:hover {
  */
 a,
 .uk-link {
-  color: #6BE181;
+  color: #333;
   text-decoration: none;
   cursor: pointer;
 }
@@ -115,7 +115,7 @@ a:hover,
 .uk-link:hover,
 .uk-link-toggle:hover .uk-link,
 .uk-link-toggle:focus .uk-link {
-  color: #000;
+  color: #6BE181;
   text-decoration: none;
 }
 

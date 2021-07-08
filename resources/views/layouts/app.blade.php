@@ -10,6 +10,7 @@
 
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="{{asset('css/bootstrap/bootstrap.min.css')}}">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
         <link rel="stylesheet" href="{{asset('css/main.css')}}" />
     </head>
 
