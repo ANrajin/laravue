@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\CreateSeriesRequest;
+use App\Models\Series;
+use Illuminate\Support\Str;
 
 class SeriesController extends Controller
 {
@@ -30,12 +33,18 @@ class SeriesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\CreateSeriesRequest;  $request
      * @return \Illuminate\Http\Response
+     * upload the image first
+     * @success store the series
      */
-    public function store(Request $request)
+    public function store(CreateSeriesRequest $request)
     {
-        //
+        $request->uploadSeriesImage()->storeSeries();
+
+        session()->flash('Success', 'Series created successfully.');
+
+        return back();
     }
 
     /**
