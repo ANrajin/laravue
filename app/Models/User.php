@@ -55,4 +55,13 @@ class User extends Authenticatable
         $this->email_verified_at = now();
         $this->save();
     }
+
+
+    /**
+     * Check for admin
+     */
+    public function isAdmin()
+    {
+        return in_array($this->email, config('laravue.admins'));
+    }
 }
