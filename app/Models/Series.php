@@ -10,4 +10,16 @@ class Series extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+
+    /**
+     * Overwrite
+     * Get the route key for the model.
+     *
+     * @return slug string
+     */
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 }
