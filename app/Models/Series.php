@@ -11,6 +11,13 @@ class Series extends Model
 
     protected $guarded = [];
 
+    protected $with = ['Lessons'];
+
+
+    public function lessons()
+    {
+        return $this->hasMany(Lesson::class);
+    }
 
     /**
      * Overwrite
