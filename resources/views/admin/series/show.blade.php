@@ -43,15 +43,5 @@
 
     <div class="py-3"></div>
 
-    <div class="card">
-        <div class="card-header">
-            <span class="text-primary">
-                Lessons of this series
-            </span>
-        </div>
-
-        <div class="card-body">
-
-        </div>
-    </div>
+    <lessons-component lessons="{{ $series->lessons }}"></lessons-component>
 @endsection
