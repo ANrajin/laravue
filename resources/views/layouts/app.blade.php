@@ -1,43 +1,43 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-        <link rel="shortcut icon" type="image/png" href="{{asset('favicon.ico')}}" >
 
-        <title>Sprin | Courses and Events HTML Template</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="shortcut icon" type="image/png" href="{{ asset('favicon.ico') }}">
 
-        <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="{{asset('css/bootstrap/bootstrap.min.css')}}">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-        <link rel="stylesheet" href="{{asset('css/main.css')}}" />
-    </head>
+    <title>Sprin | Courses and Events HTML Template</title>
 
-    
-    <body class="uk-background-body">
-        <div id="app">
-            @include('layouts.header')
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
+</head>
 
-            @yield('content')
 
-            @include('layouts.footer')
+<body class="uk-background-body">
+    <div id="app">
+        @include('layouts.header')
 
-            @include('layouts.off-canvas')
-        </div>
+        @yield('content')
 
-        <div id="login">
-            <login-modal/>
-        </div>
+        @include('layouts.footer')
 
-        <script src="{{asset('js/app.js')}}"></script>
-        <script src="{{asset('js/jquery.min.js')}}"></script>
-        <script src="{{asset('js/bootstrap/bootstrap.bundle.min.js')}}"></script>
-        <script src="{{asset('js/uikit.js')}}"></script>
-        <script>
-            $(document).ready(function(){
-                $('.dropdown-toggle').dropdown()
-            })
-        </script>
-    </body>
+        @include('layouts.off-canvas')
+
+        <login-modal />
+    </div>
+
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('js/uikit.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('.dropdown-toggle').dropdown()
+        })
+    </script>
+</body>
+
 </html>

@@ -2,10 +2,10 @@ import { createApp } from "vue";
 import LoginModal from "./components/LoginModal.vue";
 import Register from "./components/Register.vue";
 
-const login = createApp({});
-const register = createApp({});
+const app = createApp({});
 
-login.component("login-modal", LoginModal).mount("#login");
-register.component("register-component", Register).mount("#register");
+app.component("login-modal", LoginModal);
+app.component("register-component", Register);
 
+app.mount("#app");
 require("./bootstrap");

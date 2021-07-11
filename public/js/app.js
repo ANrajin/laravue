@@ -18262,10 +18262,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var login = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createApp)({});
-var register = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createApp)({});
-login.component("login-modal", _components_LoginModal_vue__WEBPACK_IMPORTED_MODULE_1__.default).mount("#login");
-register.component("register-component", _components_Register_vue__WEBPACK_IMPORTED_MODULE_2__.default).mount("#register");
+var app = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createApp)({});
+app.component("login-modal", _components_LoginModal_vue__WEBPACK_IMPORTED_MODULE_1__.default);
+app.component("register-component", _components_Register_vue__WEBPACK_IMPORTED_MODULE_2__.default);
+app.mount("#app");
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
@@ -18284,8 +18284,11 @@ window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js"); // window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+window.axios.defaults.headers.common = {
+  "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content")
+};
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
