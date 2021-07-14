@@ -28,7 +28,7 @@
                             <textarea v-model="description" id="description" rows="10" class="form-control" placeholder="Description..."></textarea>
                         </div>
 
-                        <button type="submit" class="btn btn-sm btn-outline-success">
+                        <button type="button" class="btn btn-sm btn-outline-success" @click="createNewLesson()">
                             <i class="bi bi-save2"></i>
                             Save
                         </button>
@@ -42,6 +42,7 @@
 <script>
     import axios from 'axios';
     export default {
+        props: ['seriesKey'],
         data() {
             return {
                 title: '',
@@ -50,6 +51,21 @@
                 description: ''
             }
         },
+        methods: {
+            createNewLesson(){
+                axios.post(`${this.seriesKey}/lesson`, {
+                    series_id: this.seriesKey,
+                    title: this.title,
+                    description: this.description,
+                    episode_number: this.episode,
+                    video_id: this.video
+                }).then(res => {
+                    console.log(res);
+                }).catch(err => {
+                    console.error(err);
+                })
+            }
+        }
     }
 </script>
 

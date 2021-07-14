@@ -22,20 +22,21 @@
             </ul>
         </div>
 
-        <create-lesson></create-lesson>
+        <create-lesson :seriesKey="seriesId"></create-lesson>
     </div>
 </template>
 
 <script>
     import CreateLesson from './childrens/CreateLesson.vue'
     export default {
-        props: ['lessons'],
+        props: ['lessons', 'series_id'],
         components:{
             CreateLesson
         },
         data() {
             return {
-                lessonsList: this.lessons
+                lessonsList: this.lessons,
+                seriesId: this.series_id
             }
         },
         methods: {

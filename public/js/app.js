@@ -17727,13 +17727,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _childrens_CreateLesson_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./childrens/CreateLesson.vue */ "./resources/js/components/childrens/CreateLesson.vue");
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['lessons'],
+  props: ['lessons', 'series_id'],
   components: {
     CreateLesson: _childrens_CreateLesson_vue__WEBPACK_IMPORTED_MODULE_0__.default
   },
   data: function data() {
     return {
-      lessonsList: this.lessons
+      lessonsList: this.lessons,
+      seriesId: this.series_id
     };
   },
   methods: {
@@ -17929,6 +17930,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['seriesKey'],
   data: function data() {
     return {
       title: '',
@@ -17936,6 +17938,21 @@ __webpack_require__.r(__webpack_exports__);
       episode: '',
       description: ''
     };
+  },
+  methods: {
+    createNewLesson: function createNewLesson() {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post("".concat(this.seriesKey, "/lesson"), {
+        series_id: this.seriesKey,
+        title: this.title,
+        description: this.description,
+        episode_number: this.episode,
+        video_id: this.video
+      }).then(function (res) {
+        console.log(res);
+      })["catch"](function (err) {
+        console.error(err);
+      });
+    }
   }
 });
 
@@ -18015,7 +18032,11 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     )]);
   }), 128
   /* KEYED_FRAGMENT */
-  ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_create_lesson)]);
+  ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_create_lesson, {
+    seriesKey: $data.seriesId
+  }, null, 8
+  /* PROPS */
+  , ["seriesKey"])]);
 });
 
 /***/ }),
@@ -18482,14 +18503,13 @@ var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 /* HOISTED */
 );
 
-var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
-  type: "submit",
-  "class": "btn btn-sm btn-outline-success"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
+var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
   "class": "bi bi-save2"
-}), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Save ")], -1
+}, null, -1
 /* HOISTED */
 );
+
+var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Save ");
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
@@ -18534,7 +18554,13 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     placeholder: "Description..."
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.description]])]), _hoisted_14])])])])])], 2112
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.description]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+    type: "button",
+    "class": "btn btn-sm btn-outline-success",
+    onClick: _cache[5] || (_cache[5] = function ($event) {
+      return $options.createNewLesson();
+    })
+  }, [_hoisted_14, _hoisted_15])])])])])])], 2112
   /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */
   );
 });

@@ -43,5 +43,5 @@
 
     <div class="py-3"></div>
 
-    <lessons-component lessons="{{ $series->lessons }}"></lessons-component>
+    <lessons-component lessons="{{ $series->lessons }}" series_id="{{ $series->id }}"></lessons-component>
 @endsection
