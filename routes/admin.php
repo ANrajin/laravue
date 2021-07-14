@@ -10,3 +10,5 @@ use Illuminate\Support\Facades\Route;
 Route::view('dashboard', 'admin.dashboard')->name('dashboard');
 
 Route::resource('series', 'SeriesController');
+
+Route::resource('series/{series_by_id}/lesson', 'LessonsController');

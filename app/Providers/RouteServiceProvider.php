@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Series;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -36,6 +37,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Route::model('series_by_id', Series::class);
+        Route::bind('series_by_id', function ($value) {
+            return Series::findOrFail($value);
+        });
+
         $this->configureRateLimiting();
 
         $this->routes(function () {
