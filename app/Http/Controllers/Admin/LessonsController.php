@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Series;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LessonRequest;
 
 class LessonsController extends Controller
 {
@@ -34,7 +35,7 @@ class LessonsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Series $series)
+    public function store(LessonRequest $request, Series $series)
     {
         return $series->lessons()->create($request->all());
     }
