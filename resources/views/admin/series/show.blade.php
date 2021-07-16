@@ -19,7 +19,7 @@
                 <div class="form-group">
                     <label for="title">Title</label>
                     <input type="text" class="form-control" name="title" id="title" placeholder="Series title"
-                        value="{{ $series->Lessons->first()->title }}">
+                        value="{{ $series->title }}">
                 </div>
 
                 <div class="form-group">

@@ -25,7 +25,9 @@ class LessonRequest extends FormRequest
     {
         return [
             'title' => 'required|string',
-            'description' => 'required|string|max:255'
+            'description' => 'required|string|max:255',
+            'episode_number' => 'required',
+            'video_id' => 'required'
         ];
     }
 }

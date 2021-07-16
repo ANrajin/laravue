@@ -6,6 +6,7 @@ use App\Models\Series;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LessonRequest;
+use App\Models\Lesson;
 
 class LessonsController extends Controller
 {
@@ -80,8 +81,10 @@ class LessonsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Series $series, Lesson $lesson)
     {
-        //
+        $lesson->delete();
+
+        return response()->json(['success' => 'success'], 200);
     }
 }

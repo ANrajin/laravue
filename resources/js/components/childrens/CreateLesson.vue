@@ -10,7 +10,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form @submit.prevent ="createNewLesson()" id="form">
                         <div class="form-group">
                             <label for="title">Title</label>
                             <input type="text" id="title" v-model="title" placeholder="Lesson title..." class="form-control">
@@ -28,7 +28,7 @@
                             <textarea v-model="description" id="description" rows="10" class="form-control" placeholder="Description..."></textarea>
                         </div>
 
-                        <button type="button" class="btn btn-sm btn-outline-success" @click="createNewLesson()">
+                        <button type="submit" class="btn btn-sm btn-outline-success">
                             <i class="bi bi-save2"></i>
                             Save
                         </button>
@@ -60,7 +60,9 @@
                     episode_number: this.episode,
                     video_id: this.video
                 }).then(res => {
-                    console.log(res);
+                    this.$emit('newLesson', res.data);
+                    $("#createLesson").modal("hide");
+                    document.getElementById("form").reset();
                 }).catch(err => {
                     console.error(err);
                 })

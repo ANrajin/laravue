@@ -27,11 +27,11 @@
                     <input type="file" name="image" id="image" class="form-control">
                 </div>
 
-                <button type="submit" class="btn btn-sm btn-outline-success">
+                <button type="submit" class="btn btn-sm btn-outline-success mx-2">
                     <i class="bi bi-save2"></i>
                     Save
                 </button>
-                <button type="reset" class="btn btn-sm btn-outline-secondary">
+                <button type="reset" class="btn btn-sm btn-outline-secondary mx-2">
                     <i class="bi bi-eraser"></i>
                     Clear
                 </button>
