@@ -21,9 +21,18 @@ Route::view('/', 'pages.index')->name('laravue');
 /**
  * Auth routes
  */
-Route::get('register', [RegisterController::class, 'index'])->name('register');
-Route::post('register', [RegisterController::class, 'register']);
-Route::get('register/confirm', [ConfirmEmailController::class, 'index'])->name('confirm-email');
 
-Route::post('/login', [AuthSessionController::class, 'login']);
-Route::delete('logout', [AuthSessionController::class, 'destroy'])->name('session.logout');
+
+//@middleware guest
+Route::middleware('guest')->group(function () {
+    Route::get('register', [RegisterController::class, 'index'])->name('register');
+    Route::post('register', [RegisterController::class, 'register']);
+    Route::post('/login', [AuthSessionController::class, 'login']);
+});
+
+
+//@middleware auth
+Route::middleware(['auth'])->group(function () {
+    Route::get('register/confirm', [ConfirmEmailController::class, 'index'])->name('confirm-email');
+    Route::delete('logout', [AuthSessionController::class, 'destroy'])->name('session.logout');
+});

@@ -17730,27 +17730,45 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['lessons', 'series_id'],
+  props: ["lessons", "series_id"],
   components: {
     CreateLesson: _childrens_CreateLesson_vue__WEBPACK_IMPORTED_MODULE_0__.default
   },
   data: function data() {
     return {
       lessonsList: JSON.parse(this.lessons),
-      seriesId: this.series_id
+      seriesId: this.series_id,
+      lesson: "",
+      editing: false
     };
   },
   methods: {
     createLessonNew: function createLessonNew() {
+      this.editing = false;
+      this.lesson = "";
       $("#createLesson").modal();
     },
     addNewLesson: function addNewLesson(lessons) {
       this.lessonsList.push(lessons);
     },
+    editLesson: function editLesson(lesson) {
+      this.editing = true;
+      this.lesson = lesson;
+      $("#createLesson").modal();
+    },
+    updateLesson: function updateLesson(lesson) {
+      /**
+       * replace the updated lesson
+       */
+      var lessonIndex = this.lessonsList.findIndex(function (l) {
+        return lesson.id == l.id;
+      });
+      this.lessonsList.splice(lessonIndex, 1, lesson);
+    },
     deleteLesson: function deleteLesson(id, key) {
       var _this = this;
 
-      if (confirm('Are you sure to delete?')) {
+      if (confirm("Are you sure to delete?")) {
         axios__WEBPACK_IMPORTED_MODULE_1___default().delete("".concat(this.seriesId, "/lesson/").concat(id)).then(function (res) {
           _this.lessonsList.splice(key, 1);
         })["catch"](function (err) {
@@ -17942,13 +17960,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['seriesKey'],
+  props: ["seriesKey", "lesson", "editing"],
   data: function data() {
     return {
-      title: '',
-      video: '',
-      episode: '',
-      description: ''
+      title: "",
+      video: "",
+      episode: 0,
+      description: ""
     };
   },
   methods: {
@@ -17962,13 +17980,38 @@ __webpack_require__.r(__webpack_exports__);
         episode_number: this.episode,
         video_id: this.video
       }).then(function (res) {
-        _this.$emit('newLesson', res.data);
+        _this.$emit("newLesson", res.data);
 
         $("#createLesson").modal("hide");
         document.getElementById("form").reset();
       })["catch"](function (err) {
         console.error(err);
       });
+    },
+    updateLesson: function updateLesson() {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default().put("".concat(this.seriesKey, "/lesson/").concat(this.lesson.id), {
+        title: this.title,
+        description: this.description,
+        episode_number: this.episode,
+        video_id: this.video
+      }).then(function (res) {
+        $("#createLesson").modal("hide");
+        document.getElementById("form").reset();
+
+        _this2.$emit("updatedLesson", res.data);
+      })["catch"](function (err) {
+        console.error(err);
+      });
+    }
+  },
+  watch: {
+    lesson: function lesson(newValue) {
+      this.title = this.editing ? newValue.title : "";
+      this.video = this.editing ? newValue.video_id : "";
+      this.episode = this.editing ? newValue.episode_number : 0;
+      this.description = this.editing ? newValue.description : "";
     }
   }
 });
@@ -18045,12 +18088,9 @@ var _hoisted_13 = {
   "aria-label": "Basic example"
 };
 
-var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
-  type: "button",
-  "class": "btn btn-sm btn-outline-info"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
+var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
   "class": "bi bi-pencil"
-})], -1
+}, null, -1
 /* HOISTED */
 );
 
@@ -18076,7 +18116,15 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
       key: lesson.id
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_10, [_hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(lesson.title), 1
     /* TEXT */
-    )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_13, [_hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+    )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+      type: "button",
+      "class": "btn btn-sm btn-outline-info",
+      onClick: function onClick($event) {
+        return $options.editLesson(lesson);
+      }
+    }, [_hoisted_14], 8
+    /* PROPS */
+    , ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
       type: "button",
       "class": "btn btn-sm btn-outline-danger",
       onClick: function onClick($event) {
@@ -18089,10 +18137,13 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   /* KEYED_FRAGMENT */
   ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_create_lesson, {
     seriesKey: $data.seriesId,
-    onNewLesson: $options.addNewLesson
+    lesson: $data.lesson,
+    editing: $data.editing,
+    onNewLesson: $options.addNewLesson,
+    onUpdatedLesson: $options.updateLesson
   }, null, 8
   /* PROPS */
-  , ["seriesKey", "onNewLesson"])]);
+  , ["seriesKey", "lesson", "editing", "onNewLesson", "onUpdatedLesson"])]);
 });
 
 /***/ }),
@@ -18499,53 +18550,44 @@ var _hoisted_2 = {
 var _hoisted_3 = {
   "class": "modal-content"
 };
-
-var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+var _hoisted_4 = {
   "class": "modal-header"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h5", {
+};
+var _hoisted_5 = {
+  key: 0,
   "class": "modal-title",
   id: "exampleModalLabel"
-}, "Create a New Lesson"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+};
+var _hoisted_6 = {
+  key: 1,
+  "class": "modal-title",
+  id: "exampleModalLabel"
+};
+
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
   type: "button",
   "class": "close",
   "data-dismiss": "modal",
   "aria-label": "Close"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
   "aria-hidden": "true"
-}, "×")])], -1
-/* HOISTED */
-);
-
-var _hoisted_5 = {
-  "class": "modal-body"
-};
-var _hoisted_6 = {
-  "class": "form-group"
-};
-
-var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "title"
-}, "Title", -1
+}, "×")], -1
 /* HOISTED */
 );
 
 var _hoisted_8 = {
-  "class": "form-group"
+  "class": "modal-body"
 };
-
-var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "video"
-}, "Video Id", -1
-/* HOISTED */
-);
-
+var _hoisted_9 = {
+  id: "form"
+};
 var _hoisted_10 = {
   "class": "form-group"
 };
 
 var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "episode"
-}, "Episode", -1
+  "for": "title"
+}, "Title", -1
 /* HOISTED */
 );
 
@@ -18554,29 +18596,51 @@ var _hoisted_12 = {
 };
 
 var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
+  "for": "video"
+}, "Video Id", -1
+/* HOISTED */
+);
+
+var _hoisted_14 = {
+  "class": "form-group"
+};
+
+var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
+  "for": "episode"
+}, "Episode", -1
+/* HOISTED */
+);
+
+var _hoisted_16 = {
+  "class": "form-group"
+};
+
+var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
   "for": "description"
 }, "Description", -1
 /* HOISTED */
 );
 
-var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
-  type: "submit",
-  "class": "btn btn-sm btn-outline-success"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
+var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
   "class": "bi bi-save2"
-}), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Save ")], -1
+}, null, -1
 /* HOISTED */
 );
+
+var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Save Lesson ");
+
+var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
+  "class": "bi bi-save2"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Create Lesson ");
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
 var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [_hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("form", {
-    onSubmit: _cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
-      return $options.createNewLesson();
-    }, ["prevent"])),
-    id: "form"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, [_hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [$props.editing ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("h5", _hoisted_5, " Edit This Lesson ")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("h5", _hoisted_6, " Create a New Lesson ")), _hoisted_7]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("form", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_10, [_hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     type: "text",
     id: "title",
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
@@ -18586,7 +18650,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     "class": "form-control"
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.title]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_8, [_hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.title]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_12, [_hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     type: "text",
     id: "video",
     "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
@@ -18596,7 +18660,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     "class": "form-control"
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.video]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_10, [_hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.video]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_14, [_hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     type: "number",
     id: "episode",
     "class": "form-control",
@@ -18606,7 +18670,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     placeholder: "Episode number"
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.episode]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_12, [_hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("textarea", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.episode]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_16, [_hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("textarea", {
     "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
       return $data.description = $event;
     }),
@@ -18616,9 +18680,21 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     placeholder: "Description..."
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.description]])]), _hoisted_14], 32
-  /* HYDRATE_EVENTS */
-  )])])])])], 2112
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.description]])]), $props.editing ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("button", {
+    key: 0,
+    type: "button",
+    "class": "btn btn-sm btn-outline-success",
+    onClick: _cache[5] || (_cache[5] = function () {
+      return $options.updateLesson && $options.updateLesson.apply($options, arguments);
+    })
+  }, [_hoisted_18, _hoisted_19])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("button", {
+    key: 1,
+    type: "button",
+    "class": "btn btn-sm btn-outline-success",
+    onClick: _cache[6] || (_cache[6] = function ($event) {
+      return $options.createNewLesson();
+    })
+  }, [_hoisted_20, _hoisted_21]))])])])])])], 2112
   /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */
   );
 });
