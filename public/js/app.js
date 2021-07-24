@@ -17798,8 +17798,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
       remember: true,
       isLoading: false,
       errors: []
@@ -17818,12 +17818,12 @@ __webpack_require__.r(__webpack_exports__);
 
       this.isLoading = true;
       this.errors = [];
-      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/login', {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post("/login", {
         email: this.email,
         password: this.password,
         remember: this.remember
       }).then(function (res) {
-        if (res.status == 200 && res.data.status == 'success') {
+        if (res.status == 200 && res.data.status == "success") {
           window.location.reload();
         }
       })["catch"](function (error) {
@@ -17837,7 +17837,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     register: function register() {
-      location.href = '/register';
+      location.href = "/register";
     }
   },
   computed: {
@@ -18259,7 +18259,7 @@ var _hoisted_16 = {
   key: 1
 };
 
-var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Don't have any account? ");
+var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Don't have any account? ");
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
