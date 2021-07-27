@@ -17,7 +17,8 @@ class SeriesController extends Controller
      */
     public function index()
     {
-        return view('admin.series.index');
+        $series = Series::all();
+        return view('admin.series.index', compact('series'));
     }
 
     /**
@@ -72,9 +73,19 @@ class SeriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Series $series)
     {
-        //
+        if ($request->hasFile('image')) {
+            $series->img_url = 'series/' . $request->updateSeriesImage()->filename;
+        }
+
+        $series->title = $request->title;
+        $series->description = $request->description;
+        $series->slug = Str::slug($request->title);
+
+        $series->save();
+
+        return $series->fresh();
     }
 
     /**

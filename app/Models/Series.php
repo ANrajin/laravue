@@ -14,6 +14,12 @@ class Series extends Model
     protected $with = ['Lessons'];
 
 
+    public function getCreatedAtAttribute($value)
+    {
+        return date("M d, Y", strtotime($value));
+    }
+
+
     public function lessons()
     {
         return $this->hasMany(Lesson::class);
