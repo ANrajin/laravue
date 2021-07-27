@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateSeriesRequest;
+use App\Http\Requests\UpdateSeriesRequest;
 use App\Models\Series;
 use Illuminate\Support\Str;
 
@@ -73,10 +74,10 @@ class SeriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Series $series)
+    public function update(UpdateSeriesRequest $request, Series $series)
     {
         if ($request->hasFile('image')) {
-            $series->img_url = 'series/' . $request->updateSeriesImage()->filename;
+            $series->img_url = 'series/' . $request->updateSeriesImage()->fileName;
         }
 
         $series->title = $request->title;
