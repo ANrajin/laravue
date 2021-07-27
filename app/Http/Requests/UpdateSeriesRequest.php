@@ -26,8 +26,7 @@ class UpdateSeriesRequest extends FormRequest
     {
         return [
             'title' => 'required',
-            'description' => 'required',
-            'image' => 'required|image|dimensions:min_width=100,min_height=200'
+            'description' => 'required'
         ];
     }
 
