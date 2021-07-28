@@ -33,7 +33,7 @@ class SeriesUpdateRequest extends SeriesRequest
     public function updateSeries($series)
     {
         if ($this->hasFile('image')) {
-            $series->img_url = 'series/' . $this->uploadSeriesImage()->fileName;
+            $series->img_url = $this->uploadSeriesImage()->fileName;
         }
 
         $series->title = $this->title;

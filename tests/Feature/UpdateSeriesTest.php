@@ -12,6 +12,8 @@ use Illuminate\Support\Str;
 
 class UpdateSeriesTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function test_a_user_can_update_a_series()
     {
         $this->withoutExceptionHandling();
@@ -27,11 +29,11 @@ class UpdateSeriesTest extends TestCase
             'image' => UploadedFile::fake()->image('new-img.png')
         ])->assertStatus(200);
 
-        Storage::disk(config('filesystems.default'))->assertExists('series/' . Str::slug('updated title') . '.png');
+        Storage::disk(config('filesystems.default'))->assertExists('public/series/' . Str::slug('updated title') . '.png');
 
         $this->assertDatabaseHas('series', [
             'slug' => Str::slug('updated title'),
-            'img_url' => 'series/updated-title.png'
+            'img_url' => 'updated-title.png'
         ]);
     }
 
@@ -52,7 +54,7 @@ class UpdateSeriesTest extends TestCase
 
         $this->assertDatabaseHas('series', [
             'slug' => Str::slug('updated title'),
-            'img_url' => 'series/updated-title.png'
+            'img_url' => 'updated-title.png'
         ]);
     }
 }

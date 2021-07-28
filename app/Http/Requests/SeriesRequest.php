@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class SeriesRequest extends FormRequest
 {
@@ -12,9 +13,15 @@ class SeriesRequest extends FormRequest
      */
     public function uploadSeriesImage()
     {
-        $uploaded = $this->image;
-        $this->fileName = Str::slug($this->title) . '.' . $uploaded->getClientOriginalExtension();
-        $uploaded->storePubliclyAs('series', $this->fileName);
+        $image = $this->file('image');
+        $this->fileName = Str::slug($this->title) . '.' . $image->getClientOriginalExtension();
+
+        //check if directory exist or not
+        if (!Storage::exists("public/series")) {
+            Storage::makeDirectory("public/series");
+        }
+
+        Storage::putFileAs('public/series', $image, $this->fileName);
 
         return $this;
     }

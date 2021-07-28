@@ -40,7 +40,7 @@ class SeriesCreateRequest extends SeriesRequest
         $series = Series::create([
             'title' => $this->title,
             'slug' => Str::slug($this->title),
-            'img_url' => 'series/' . $this->fileName,
+            'img_url' => $this->fileName,
             'description' => $this->description
         ]);
 
