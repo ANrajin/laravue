@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Series;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\LessonRequest;
+use App\Http\Requests\LessonCreateRequest;
+use App\Http\Requests\LessonUpdateRequest;
 use App\Models\Lesson;
-use App\Http\Requests\UpdateLessonRequest;
 
 class LessonsController extends Controller
 {
@@ -37,7 +36,7 @@ class LessonsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(LessonRequest $request, Series $series)
+    public function store(LessonCreateRequest $request, Series $series)
     {
         return $series->lessons()->create($request->all());
     }
@@ -71,7 +70,7 @@ class LessonsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Series $series, Lesson $lesson, UpdateLessonRequest $request)
+    public function update(Series $series, Lesson $lesson, LessonUpdateRequest $request)
     {
         $lesson->update($request->all());
         return $lesson->fresh();

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Support\Str;
 
-class UpdateSeriesRequest extends SeriesRequest
+class SeriesUpdateRequest extends SeriesRequest
 {
     /**
      * Determine if the user is authorized to make this request.

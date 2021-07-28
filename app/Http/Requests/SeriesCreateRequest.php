@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Support\Str;
 use App\Models\Series;
 
-class CreateSeriesRequest extends SeriesRequest
+class SeriesCreateRequest extends SeriesRequest
 {
     /**
      * Determine if the user is authorized to make this request.

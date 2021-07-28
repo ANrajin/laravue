@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateSeriesRequest;
-use App\Http\Requests\UpdateSeriesRequest;
+use App\Http\Requests\SeriesCreateRequest;
+use App\Http\Requests\SeriesUpdateRequest;
 use App\Models\Series;
 
 class SeriesController extends Controller
@@ -38,7 +38,7 @@ class SeriesController extends Controller
      * upload the image first
      * @success store the series
      */
-    public function store(CreateSeriesRequest $request)
+    public function store(SeriesCreateRequest $request)
     {
         return $request->uploadSeriesImage()->storeSeries();
     }
@@ -72,7 +72,7 @@ class SeriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateSeriesRequest $request, Series $series)
+    public function update(SeriesUpdateRequest $request, Series $series)
     {
         return $request->updateSeries($series);
     }
