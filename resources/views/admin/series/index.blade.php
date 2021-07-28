@@ -12,5 +12,9 @@
             </a>
         </div>
     </div>
-    <series-component series="{{ $series }}"></series-component>
+    @if ($series->count() > 0)
+        <series-component series="{{ $series }}"></series-component>
+    @else
+        <p class="text-center">No series created yet!</p>
+    @endif
 @endsection
